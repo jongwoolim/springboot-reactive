@@ -5,6 +5,7 @@ import me.jongwoo.springbootch1reactive.domain.Cart;
 import me.jongwoo.springbootch1reactive.domain.CartItem;
 import me.jongwoo.springbootch1reactive.repository.CartRepository;
 import me.jongwoo.springbootch1reactive.repository.ItemRepository;
+import me.jongwoo.springbootch1reactive.service.CartService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,6 +16,8 @@ import reactor.core.publisher.Mono;
 @Controller
 @RequiredArgsConstructor
 public class HomeController {
+
+    private final CartService cartService;
 
     private final ItemRepository itemRepository;
     private final CartRepository cartRepository;
@@ -33,27 +36,8 @@ public class HomeController {
     @PostMapping("/add/{id}")
     Mono<String> addToCart(@PathVariable String id){
 
-        return this.cartRepository.findById("My Cart")
-            .defaultIfEmpty(new Cart("My Cart"))
-            .flatMap(cart -> cart.getCartItems().stream()
-                .filter(cartItem -> cartItem.getItem()
-                    .getId().equals(id))
-                .findAny()
-                .map(cartItem -> {
-                    cartItem.increment();
-                    return Mono.just(cart);
-                })
-                    .orElseGet(() -> {
-                        return this.itemRepository.findById(id)
-                                .map(item -> new CartItem(item))
-                                .map(cartItem -> {
-                                    cart.getCartItems().add(cartItem);
-                                    return cart;
-                                });
-                    }))
-                .flatMap(cart -> this.cartRepository.save(cart))
-                .thenReturn("redirect:/")
-                ;
+        return this.cartService.addToCart("My Cart", id)
+                .thenReturn("redirect:/");
 
     }
 
