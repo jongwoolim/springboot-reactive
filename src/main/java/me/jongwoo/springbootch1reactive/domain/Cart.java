@@ -1,5 +1,6 @@
 package me.jongwoo.springbootch1reactive.domain;
 
+import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 
@@ -7,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @NoArgsConstructor
+@Data
 public class Cart {
 
     @Id
