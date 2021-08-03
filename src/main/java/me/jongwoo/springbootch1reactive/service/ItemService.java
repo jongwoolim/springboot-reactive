@@ -16,7 +16,7 @@ public class ItemService {
 
     private final ItemByExampleRepository exampleRepository;
 
-    Flux<Item> searchByExample(String name, String description, boolean useAnd){
+    public Flux<Item> searchByExample(String name, String description, boolean useAnd){
 
         Item item = new Item(name, description, 0.0);
 
