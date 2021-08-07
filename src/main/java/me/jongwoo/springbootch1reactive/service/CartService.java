@@ -8,8 +8,9 @@ import me.jongwoo.springbootch1reactive.repository.ItemRepository;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
-@RequiredArgsConstructor
+
 @Service
+@RequiredArgsConstructor
 public class CartService {
 
     private final ItemRepository itemRepository;
