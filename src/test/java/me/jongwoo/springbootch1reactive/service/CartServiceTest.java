@@ -66,5 +66,21 @@ class CartServiceTest {
                 .verifyComplete(); //리액티브 스트림의 complete 시그널이 발생하고 리액터 플로우가 성공적으로 완료됐음을 검증
     }
 
+    @Test
+    public void alternativeWayToTest(){
+        StepVerifier.create(
+                cartService.addToCart("My Cart", "item1"))
+                .expectNextMatches(cart -> {
+                    assertThat(cart.getCartItems()).extracting(CartItem::getQuantity)
+                            .containsExactlyInAnyOrder(1);
+
+                    assertThat(cart.getCartItems()).extracting(CartItem::getItem)
+                            .containsExactly(new Item("item1", "TV tray", "Alf TV tray", 19.99));
+
+                    return true;
+                })
+                .verifyComplete();
+    }
+
 
 }
