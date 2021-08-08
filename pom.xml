@@ -48,11 +48,14 @@
             <optional>true</optional>
         </dependency>
 
+        <!-- tag::blockhound[] -->
         <dependency>
             <groupId>io.projectreactor.tools</groupId>
-            <artifactId>blockhound</artifactId>
-            <version>1.0.4.RELEASE</version>
+            <artifactId>blockhound-junit-platform</artifactId>
+            <version>1.0.3.RELEASE</version>
+            <scope>test</scope>
         </dependency>
+        <!-- end::blockhound[] -->
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
