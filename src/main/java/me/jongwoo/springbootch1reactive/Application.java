@@ -1,8 +1,9 @@
 package me.jongwoo.springbootch1reactive;
 
+import me.jongwoo.springbootch1reactive.repository.HttpTraceWrapperRepository;
+import me.jongwoo.springbootch1reactive.repository.SpringDataHttpTraceRepository;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.actuate.trace.http.HttpTraceRepository;
-import org.springframework.boot.actuate.trace.http.InMemoryHttpTraceRepository;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
@@ -18,8 +19,13 @@ public class Application {
 
 
     @Bean
-    HttpTraceRepository httpTraceRepository(){
-        return new InMemoryHttpTraceRepository();
+    HttpTraceRepository springDataTraceRepository(HttpTraceWrapperRepository repository){
+        return new SpringDataHttpTraceRepository(repository);
     }
+
+//    @Bean
+//    HttpTraceRepository httpTraceRepository(){
+//        return new InMemoryHttpTraceRepository();
+//    }
 
 }
