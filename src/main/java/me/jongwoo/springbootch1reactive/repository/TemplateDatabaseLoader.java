@@ -20,6 +20,7 @@ public class TemplateDatabaseLoader implements ApplicationRunner {
     public void run(ApplicationArguments args) throws Exception {
         mongo.save(new Item("Alf alarm clock", 19.99));
         mongo.save(new Item("Smurf TV tray", 24.99));
+        mongo.save(new Item("Test", 99.99));
         log.info("=====================================>");
         log.info("=====================================>");
         log.info("=====================================>");
