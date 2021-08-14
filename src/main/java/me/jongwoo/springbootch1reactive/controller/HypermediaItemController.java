@@ -40,7 +40,7 @@ public class HypermediaItemController {
                 .collectList() //
                 .flatMap(entityModels -> linkTo(methodOn(HypermediaItemController.class) //
                         .findAll()).withSelfRel() //
-                        .toMono() //
+                        .toMono()
                         .map(selfLink -> CollectionModel.of(entityModels, selfLink)));
     }
     // end::find-all[]
