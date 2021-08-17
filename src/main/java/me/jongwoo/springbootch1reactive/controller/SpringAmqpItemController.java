@@ -2,8 +2,8 @@ package me.jongwoo.springbootch1reactive.controller;
 
 import lombok.RequiredArgsConstructor;
 import me.jongwoo.springbootch1reactive.domain.Item;
-import org.junit.platform.commons.logging.Logger;
-import org.junit.platform.commons.logging.LoggerFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;

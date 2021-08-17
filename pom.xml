@@ -63,14 +63,14 @@
             <optional>true</optional>
         </dependency>
 
-        <!-- tag::blockhound[] -->
-        <dependency>
-            <groupId>io.projectreactor.tools</groupId>
-            <artifactId>blockhound-junit-platform</artifactId>
-            <version>1.0.3.RELEASE</version>
-            <scope>test</scope>
-        </dependency>
-        <!-- end::blockhound[] -->
+<!--        &lt;!&ndash; tag::blockhound[] &ndash;&gt;-->
+<!--        <dependency>-->
+<!--            <groupId>io.projectreactor.tools</groupId>-->
+<!--            <artifactId>blockhound-junit-platform</artifactId>-->
+<!--            <version>1.0.3.RELEASE</version>-->
+<!--            <scope>test</scope>-->
+<!--        </dependency>-->
+<!--        &lt;!&ndash; end::blockhound[] &ndash;&gt;-->
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
