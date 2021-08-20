@@ -4,7 +4,7 @@ import me.jongwoo.springbootch1reactive.domain.HttpTraceWrapper;
 import me.jongwoo.springbootch1reactive.repository.HttpTraceWrapperRepository;
 import me.jongwoo.springbootch1reactive.repository.SpringDataHttpTraceRepository;
 import org.bson.Document;
-import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.actuate.trace.http.HttpTrace;
@@ -31,10 +31,10 @@ public class Application {
         SpringApplication.run(Application.class, args);
     }
 
-    @Bean
-    Jackson2JsonMessageConverter jackson2JsonMessageConverter(){
-        return new Jackson2JsonMessageConverter();
-    }
+//    @Bean
+//    Jackson2JsonMessageConverter jackson2JsonMessageConverter(){
+//        return new Jackson2JsonMessageConverter();
+//    }
 
 //    @Bean
 //    HttpTraceRepository springDataTraceRepository(HttpTraceWrapperRepository repository){
