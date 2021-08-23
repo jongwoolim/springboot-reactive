@@ -12,7 +12,7 @@ import java.net.URI;
 
 @RestController
 @RequiredArgsConstructor
-public class ApiIItemController {
+public class ApiItemController {
 
     private final ItemRepository itemRepository;
 

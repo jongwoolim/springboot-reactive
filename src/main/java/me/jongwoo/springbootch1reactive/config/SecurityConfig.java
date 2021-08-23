@@ -19,6 +19,29 @@ public class SecurityConfig {
 
     static final String USER = "USER";
     static final String INVENTORY = "INVENTORY";
+    
+    static String role(String auth){
+        return "ROLE_"+ auth;
+    }
+
+    @Bean
+    public CommandLineRunner userLoader(MongoOperations operations){
+        return args -> {
+            operations.save(
+                    new me.jongwoo.springbootch1reactive.domain.User(
+                            "greg",
+                            "password",
+                            Arrays.asList(role(USER))));
+
+            operations.save(
+                    new me.jongwoo.springbootch1reactive.domain.User(
+                            "manager",
+                            "password",
+                            Arrays.asList(role(USER), role(INVENTORY))));
+
+        };
+
+    }
 
     @Bean
     public SecurityWebFilterChain myCustomSecurityPolicy(ServerHttpSecurity http){
@@ -42,12 +65,5 @@ public class SecurityConfig {
                 .password(user.getPassword())
                 .authorities(user.getRoles().toArray(new String[0]))
                 .build());
-    }
-
-    @Bean
-    public CommandLineRunner userLoader(MongoOperations operations){
-        return args -> {
-            operations.save(new me.jongwoo.springbootch1reactive.domain.User("jongwoo","password", Arrays.asList("ROLE_USER")));
-        };
     }
 }

@@ -19,9 +19,9 @@ import static org.springframework.restdocs.operation.preprocess.Preprocessors.pr
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
 import static org.springframework.restdocs.webtestclient.WebTestClientRestDocumentation.document;
 
-@WebFluxTest(controllers = ApiIItemController.class)
+@WebFluxTest(controllers = ApiItemController.class)
 @AutoConfigureRestDocs
-class ApiIItemControllerTest {
+class ApiItemControllerTest {
 
     @Autowired
     private WebTestClient webTestClient;
