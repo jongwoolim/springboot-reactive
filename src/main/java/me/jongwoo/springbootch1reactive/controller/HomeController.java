@@ -9,6 +9,7 @@ import me.jongwoo.springbootch1reactive.repository.ItemRepository;
 import me.jongwoo.springbootch1reactive.service.CartService;
 import me.jongwoo.springbootch1reactive.service.InventoryService;
 import me.jongwoo.springbootch1reactive.service.ItemService;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.reactive.result.view.Rendering;
@@ -24,13 +25,27 @@ public class HomeController {
 //    private final ItemRepository itemRepository;
 //    private final CartRepository cartRepository;
 
+//    @GetMapping("/")
+//    Mono<Rendering> home() { // <1>
+//        return Mono.just(Rendering.view("home.html") // <2>
+//                .modelAttribute("items", this.inventoryService.getInventory()) // <3>
+//                .modelAttribute("cart", this.inventoryService.getCart("My Cart") // <4>
+//                        .defaultIfEmpty(new Cart("My Cart")))
+//                .build());
+//    }
+
     @GetMapping("/")
-    Mono<Rendering> home() { // <1>
+    Mono<Rendering> home(Authentication auth) { // <1>
         return Mono.just(Rendering.view("home.html") // <2>
                 .modelAttribute("items", this.inventoryService.getInventory()) // <3>
-                .modelAttribute("cart", this.inventoryService.getCart("My Cart") // <4>
-                        .defaultIfEmpty(new Cart("My Cart")))
+                .modelAttribute("cart", this.inventoryService.getCart(cartName(auth)) // <4>
+                        .defaultIfEmpty(new Cart(cartName(auth))))
+                .modelAttribute("auth", auth)
                 .build());
+    }
+
+    private static String cartName(Authentication auth){
+        return auth.getName() + "'s Cart";
     }
 
     @PostMapping("/add/{id}")
