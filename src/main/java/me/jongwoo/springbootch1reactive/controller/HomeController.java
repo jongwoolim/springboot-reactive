@@ -49,8 +49,14 @@ public class HomeController {
     }
 
     @PostMapping("/add/{id}")
-    Mono<String> addToCart(@PathVariable String id) {
-        return this.inventoryService.addItemToCart("My Cart", id)
+    Mono<String> addToCart(Authentication auth, @PathVariable String id) {
+        return this.inventoryService.addItemToCart(cartName(auth), id)
+                .thenReturn("redirect:/");
+    }
+
+    @DeleteMapping("/remove/{id}")
+    Mono<String> removeFromCart(Authentication auth, @PathVariable String id){
+        return this.inventoryService.removeOneFromCart(cartName(auth), id)
                 .thenReturn("redirect:/");
     }
 
