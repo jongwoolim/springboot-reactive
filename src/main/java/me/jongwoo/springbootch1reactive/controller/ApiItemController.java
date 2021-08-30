@@ -28,6 +28,22 @@ public class ApiItemController {
 
     private final ItemRepository itemRepository;
 
+    @GetMapping("/api")
+    Mono<RepresentationModel<?>> root() {
+        ApiItemController controller = methodOn(ApiItemController.class);
+
+        Mono<Link> selfLink = linkTo(controller.root()).withSelfRel() //
+                .toMono();
+
+        Mono<Link> itemsAggregateLink = linkTo(controller.findAll(null)) //
+                .withRel(IanaLinkRelations.ITEM) //
+                .toMono();
+
+        return Mono.zip(selfLink, itemsAggregateLink) //
+                .map(links -> Links.of(links.getT1(), links.getT2())) //
+                .map(links -> new RepresentationModel<>(links.toList()));
+    }
+
     @GetMapping("/api/items")
     Mono<CollectionModel<EntityModel<Item>>> findAll(Authentication auth) {
         ApiItemController controller = methodOn(ApiItemController.class);
