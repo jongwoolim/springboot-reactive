@@ -27,7 +27,7 @@ public class ApiItemControllerTest {
     @WithMockUser(username = "bob", roles = { "INVENTORY" })
     void addingInventoryWithProperRoleSucceeds() {
         this.webTestClient
-                .post().uri("/")
+                .post().uri("/api/items/add")
                 .contentType(MediaType.APPLICATION_JSON)
                 .bodyValue("{" +
                         "\"name\": \"iPhone 11\", " +
@@ -35,7 +35,7 @@ public class ApiItemControllerTest {
                         "\"price\": 999.99" +
                         "}")
                 .exchange()
-                .expectStatus().isOk();
+                .expectStatus().isCreated();
 
         this.repository.findByName("iPhone 11")
                 .as(StepVerifier::create)
@@ -48,9 +48,16 @@ public class ApiItemControllerTest {
     }
 
     @Test
-    @WithMockUser(username = "alice", roles = {"SOME_OTHER_ROLE"})
-    public void addingInventoryWithoutProperRoleFails(){
-        this.webTestClient.post().uri("/")
+    @WithMockUser(username = "alice", roles = { "SOME_OTHER_ROLE" }) // <1>
+    void addingInventoryWithoutProperRoleFails() {
+        this.webTestClient
+                .post().uri("/api/items/add")
+                .contentType(MediaType.APPLICATION_JSON)
+                .bodyValue("{" +
+                        "\"name\": \"iPhone X\", " +
+                        "\"description\": \"upgrade\", " +
+                        "\"price\": 999.99" +
+                        "}")
                 .exchange()
                 .expectStatus().isForbidden();
     }
