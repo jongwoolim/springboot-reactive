@@ -1,0 +1,14 @@
+# tag::oauth[]
+spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id:  376381932490-vji6pqk84o96m39tf6l09t7ft77juvr3.apps.googleusercontent.com # 실제 구글에서 발급받은 client-id로 대체해야함
+            client-secret: ETWKyiD_Xx2g_tQpBNFlNU-M # 실제 구글에서 발급받은 client-secret으로 대체해야함
+  # end::oauth[]
+  webflux:
+    hiddenmethod:
+      filter:
+        enabled: true
