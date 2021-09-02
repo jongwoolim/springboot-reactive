@@ -21,51 +21,51 @@ public class SecurityConfig {
 
     public static final String USER = "USER";
     public static final String INVENTORY = "INVENTORY";
-    
-    static String role(String auth){
-        return "ROLE_"+ auth;
-    }
-
-    @Bean
-    public CommandLineRunner userLoader(MongoOperations operations){
-        return args -> {
-            operations.save(
-                    new me.jongwoo.springbootch1reactive.domain.User(
-                            "greg",
-                            "password",
-                            Arrays.asList(role(USER))));
-
-            operations.save(
-                    new me.jongwoo.springbootch1reactive.domain.User(
-                            "manager",
-                            "password",
-                            Arrays.asList(role(USER), role(INVENTORY))));
-
-        };
-
-    }
-
-    @Bean
-    public SecurityWebFilterChain myCustomSecurityPolicy(ServerHttpSecurity http){
-        return http
-                .authorizeExchange(exchanges -> exchanges
-//                    .pathMatchers(HttpMethod.POST, "/").hasRole(INVENTORY)
-//                        .pathMatchers(HttpMethod.DELETE, "/**").hasRole(INVENTORY)
-                    .anyExchange().authenticated()
-                .and()
-                    .httpBasic()
-                .and()
-                        .formLogin())
-                .csrf().disable().build();
-    }
-
-    @Bean
-    public ReactiveUserDetailsService userDetailsService(UserRepository repository){
-        return username -> repository.findByName(username)
-                .map(user -> User.withDefaultPasswordEncoder()
-                .username(user.getName())
-                .password(user.getPassword())
-                .authorities(user.getRoles().toArray(new String[0]))
-                .build());
-    }
+//
+//    static String role(String auth){
+//        return "ROLE_"+ auth;
+//    }
+//
+//    @Bean
+//    public CommandLineRunner userLoader(MongoOperations operations){
+//        return args -> {
+//            operations.save(
+//                    new me.jongwoo.springbootch1reactive.domain.User(
+//                            "greg",
+//                            "password",
+//                            Arrays.asList(role(USER))));
+//
+//            operations.save(
+//                    new me.jongwoo.springbootch1reactive.domain.User(
+//                            "manager",
+//                            "password",
+//                            Arrays.asList(role(USER), role(INVENTORY))));
+//
+//        };
+//
+//    }
+//
+//    @Bean
+//    public SecurityWebFilterChain myCustomSecurityPolicy(ServerHttpSecurity http){
+//        return http
+//                .authorizeExchange(exchanges -> exchanges
+////                    .pathMatchers(HttpMethod.POST, "/").hasRole(INVENTORY)
+////                        .pathMatchers(HttpMethod.DELETE, "/**").hasRole(INVENTORY)
+//                    .anyExchange().authenticated()
+//                .and()
+//                    .httpBasic()
+//                .and()
+//                        .formLogin())
+//                .csrf().disable().build();
+//    }
+//
+//    @Bean
+//    public ReactiveUserDetailsService userDetailsService(UserRepository repository){
+//        return username -> repository.findByName(username)
+//                .map(user -> User.withDefaultPasswordEncoder()
+//                .username(user.getName())
+//                .password(user.getPassword())
+//                .authorities(user.getRoles().toArray(new String[0]))
+//                .build());
+//    }
 }

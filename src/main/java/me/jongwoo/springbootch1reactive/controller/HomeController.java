@@ -10,6 +10,10 @@ import me.jongwoo.springbootch1reactive.service.CartService;
 import me.jongwoo.springbootch1reactive.service.InventoryService;
 import me.jongwoo.springbootch1reactive.service.ItemService;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
+import org.springframework.security.oauth2.client.annotation.RegisteredOAuth2AuthorizedClient;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.reactive.result.view.Rendering;
@@ -34,15 +38,36 @@ public class HomeController {
 //                .build());
 //    }
 
-    @GetMapping("/")
-    Mono<Rendering> home(Authentication auth) { // <1>
-        return Mono.just(Rendering.view("home.html") // <2>
-                .modelAttribute("items", this.inventoryService.getInventory()) // <3>
-                .modelAttribute("cart", this.inventoryService.getCart(cartName(auth)) // <4>
-                        .defaultIfEmpty(new Cart(cartName(auth))))
-                .modelAttribute("auth", auth)
+    @GetMapping
+    Mono<Rendering> home(
+                          @RegisteredOAuth2AuthorizedClient OAuth2AuthorizedClient authorizedClient,
+                          @AuthenticationPrincipal OAuth2User oauth2User) {
+        return Mono.just(Rendering.view("home.html")
+                .modelAttribute("items", this.inventoryService.getInventory())
+                .modelAttribute("cart", this.inventoryService.getCart(cartName(oauth2User))
+                        .defaultIfEmpty(new Cart(cartName(oauth2User))))
+
+                .modelAttribute("userName", oauth2User.getName())
+                .modelAttribute("authorities", oauth2User.getAuthorities())
+                .modelAttribute("clientName",
+                        authorizedClient.getClientRegistration().getClientName())
+                .modelAttribute("userAttributes", oauth2User.getAttributes())
                 .build());
     }
+
+    private static String cartName(OAuth2User oAuth2User) {
+        return oAuth2User.getName() + "'s Cart";
+    }
+
+//    @GetMapping("/")
+//    Mono<Rendering> home(Authentication auth) { // <1>
+//        return Mono.just(Rendering.view("home.html") // <2>
+//                .modelAttribute("items", this.inventoryService.getInventory()) // <3>
+//                .modelAttribute("cart", this.inventoryService.getCart(cartName(auth)) // <4>
+//                        .defaultIfEmpty(new Cart(cartName(auth))))
+//                .modelAttribute("auth", auth)
+//                .build());
+//    }
 
     private static String cartName(Authentication auth){
         return auth.getName() + "'s Cart";
